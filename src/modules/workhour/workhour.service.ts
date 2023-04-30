@@ -9,7 +9,7 @@ import {
 
 @Injectable()
 export class WorkhourService {
-  private readonly FILE_PATH = './json/workhours.json';
+  private readonly FILE_PATH = './src/json/workhours.json';
 
   async findAll(): Promise<Workhour[]> {
     return await jsonfile.readFile(this.FILE_PATH);
