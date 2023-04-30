@@ -109,7 +109,7 @@ export class DayTimeTableService {
     timeslotInterval: number,
     isIgnoreSchedule: boolean,
     isIgnoreWorkhour: boolean,
-  ) {
+  ): Promise<IDayTimeTable[]> {
     const workHours = await this.workhourService.findWorkhourByDaysAndTimeZone(
       days,
       startDayIdentifier,

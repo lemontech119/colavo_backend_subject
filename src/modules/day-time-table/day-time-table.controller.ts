@@ -8,12 +8,15 @@ export class DayTimeTableController {
 
   @Post('/getTimeSlots')
   findTimeTable(@Body() requestBody: RequestBody) {
+    const days =
+      requestBody.days < 1 || !requestBody.days ? 1 : requestBody.days;
+
     return this.dayTimeTableService.findDayTimeTables(
       requestBody.start_day_identifier,
       requestBody.timezone_identifier,
       requestBody.service_duration,
-      requestBody.days || 1,
-      requestBody.timeslot_interval || 30,
+      days,
+      requestBody.timeslot_interval || 1800,
       requestBody.is_ignore_schedule || false,
       requestBody.is_ignore_workhour || false,
     );

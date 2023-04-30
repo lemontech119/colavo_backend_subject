@@ -1,4 +1,4 @@
-export class RequestBody {
+export interface RequestBody {
   start_day_identifier: string;
   timezone_identifier: string;
   service_duration: number;
