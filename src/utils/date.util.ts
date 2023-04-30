@@ -18,8 +18,8 @@ export const addDaysByUnixTime = (
   return moment.unix(unixTime).add(addDays, 'days').unix();
 };
 
-export const getDateByDay = (day: string): Date => {
-  return moment(day).toDate();
+export const getDateByDay = (day: string, timeZone: string): Date => {
+  return moment.tz(day, timeZone).toDate();
 };
 
 export const getUnixTimeByDate = (date: Date): number => {

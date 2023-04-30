@@ -46,7 +46,10 @@ export class WorkhourService {
   ): number[] {
     const weekdays = [];
     for (let i = 0; i < days; i++) {
-      const date = getDateByAddDays(getDateByDay(startDayIdentifier), i);
+      const date = getDateByAddDays(
+        getDateByDay(startDayIdentifier, timeZone),
+        i,
+      );
       const day = getDayByDateAndTimezone(date, timeZone);
 
       weekdays.push(day + 1);

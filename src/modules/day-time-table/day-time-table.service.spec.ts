@@ -26,6 +26,7 @@ describe('DayTimeTableService', () => {
         true,
         0,
         false,
+        'Asia/Seoul',
       );
 
       expect(workUnitTime).toEqual(1682866800);
@@ -38,6 +39,7 @@ describe('DayTimeTableService', () => {
         false,
         0,
         false,
+        'Asia/Seoul',
       );
 
       expect(workUnitTime).toEqual(1682903700);

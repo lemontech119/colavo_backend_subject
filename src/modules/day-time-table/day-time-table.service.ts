@@ -23,9 +23,10 @@ export class DayTimeTableService {
     isIgnoreWorkhour: boolean,
     addDays: number,
     isEndTime: boolean,
+    timeZone: string,
   ) {
     const targetUnixTime = getUnixTimeByDate(
-      getDateByAddDays(getDateByDay(startDayIdentifier), addDays),
+      getDateByAddDays(getDateByDay(startDayIdentifier, timeZone), addDays),
     );
     if (isIgnoreWorkhour) {
       const addDay = isEndTime ? 1 : 0;
@@ -63,6 +64,7 @@ export class DayTimeTableService {
     timeslotInterval: number,
     isIgnoreWorkhour: boolean,
     serviceDuration: number,
+    timeZone: string,
   ): IDayTimeTable[] {
     return workHours
       .map((workhour, index) => {
@@ -72,6 +74,7 @@ export class DayTimeTableService {
           isIgnoreWorkhour,
           index,
           false,
+          timeZone,
         );
         const workEndUnixTime = this.getUnixTimeByDateAndInterval(
           startDayIdentifier,
@@ -79,6 +82,7 @@ export class DayTimeTableService {
           isIgnoreWorkhour,
           index,
           true,
+          timeZone,
         );
 
         if (workStartUnixTime >= workEndUnixTime || workhour.is_day_off) {
@@ -115,13 +119,13 @@ export class DayTimeTableService {
       startDayIdentifier,
       timezoneIdentifier,
     );
-
     const dayTimeTables = this.generateDayTimeTableByWorkHours(
       workHours,
       startDayIdentifier,
       timeslotInterval,
       isIgnoreWorkhour,
       serviceDuration,
+      timezoneIdentifier,
     );
 
     if (!isIgnoreSchedule) {
