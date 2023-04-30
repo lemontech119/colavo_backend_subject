@@ -5,7 +5,7 @@ import { IDayTimeTable, ITimeslot } from '../../interfaces/dayTimeTable.inter';
 
 @Injectable()
 export class EventService {
-  private readonly FILE_PATH = './json/events.json';
+  private readonly FILE_PATH = './src/json/events.json';
 
   async findAll(): Promise<Event[]> {
     return await jsonfile.readFile(this.FILE_PATH);
