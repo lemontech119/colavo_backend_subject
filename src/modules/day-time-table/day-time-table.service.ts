@@ -110,7 +110,7 @@ export class DayTimeTableService {
         return {
           start_of_day: this.getAddDayTargetUnixTimeByDayAndTimeZone(
             startDayIdentifier,
-            index,
+            0,
             timeZone,
           ),
           day_modifier: index,
