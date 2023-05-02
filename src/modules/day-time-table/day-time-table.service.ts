@@ -17,6 +17,16 @@ export class DayTimeTableService {
     private readonly workhourService: WorkhourService,
   ) {}
 
+  getAddDayTargetUnixTimeByDayAndTimeZone(
+    startDayIdentifier: string,
+    addDays: number,
+    timeZone: string,
+  ): number {
+    return getUnixTimeByDate(
+      getDateByAddDays(getDateByDay(startDayIdentifier, timeZone), addDays),
+    );
+  }
+
   getUnixTimeByDateAndInterval(
     startDayIdentifier: string,
     interval: number,
@@ -25,9 +35,12 @@ export class DayTimeTableService {
     isEndTime: boolean,
     timeZone: string,
   ) {
-    const targetUnixTime = getUnixTimeByDate(
-      getDateByAddDays(getDateByDay(startDayIdentifier, timeZone), addDays),
+    const targetUnixTime = this.getAddDayTargetUnixTimeByDayAndTimeZone(
+      startDayIdentifier,
+      addDays,
+      timeZone,
     );
+
     if (isIgnoreWorkhour) {
       const addDay = isEndTime ? 1 : 0;
       return addDaysByUnixTime(targetUnixTime, addDay);
@@ -84,19 +97,22 @@ export class DayTimeTableService {
           true,
           timeZone,
         );
-
-        if (workStartUnixTime >= workEndUnixTime || workhour.is_day_off) {
-          return null;
-        }
-        const timeSlots = this.generateTimeSlotsByWorkTime(
-          workStartUnixTime,
-          workEndUnixTime,
-          timeslotInterval,
-          serviceDuration,
-        );
+        const timeSlots =
+          workStartUnixTime >= workEndUnixTime || workhour.is_day_off
+            ? []
+            : this.generateTimeSlotsByWorkTime(
+                workStartUnixTime,
+                workEndUnixTime,
+                timeslotInterval,
+                serviceDuration,
+              );
 
         return {
-          start_of_day: workStartUnixTime,
+          start_of_day: this.getAddDayTargetUnixTimeByDayAndTimeZone(
+            startDayIdentifier,
+            index,
+            timeZone,
+          ),
           day_modifier: index,
           is_day_off: workhour.is_day_off,
           timeslots: timeSlots,

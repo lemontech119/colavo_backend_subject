@@ -131,7 +131,7 @@ describe('DayTimeTableController (e2e)', () => {
   });
 
   describe('Step3', () => {
-    test('is_ignore_workhour가 false이며 20210509에서 days가 2인 경우 월요일 workhour가 없어 하루치만 나오는지 확인', async () => {
+    test('is_ignore_workhour가 false이며 20210509에서 days가 2인 경우 월요일 workhour에 timeslots이 빈배열인지 확인', async () => {
       const dayTimetable = await request(app.getHttpServer())
         .post('/day-time-table/getTimeSlots')
         .send({
@@ -144,7 +144,7 @@ describe('DayTimeTableController (e2e)', () => {
           timezone_identifier: 'Asia/Seoul',
         });
 
-      expect(dayTimetable.body.length).toEqual(1);
+      expect(dayTimetable.body[1].timeslots).toEqual([]);
     });
   });
 });
